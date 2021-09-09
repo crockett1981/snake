@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +8,7 @@ namespace snake
 {
     public class Snake
     {
-        private const float Speed = 8.0f;
+        private const float Speed = 40.0f;
         private const int Time = 300;
         
         private float _time;
@@ -66,10 +67,8 @@ namespace snake
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (var tail in _tails)
-            {
-                spriteBatch.Draw(_texture, tail.Position, Color.White);
-            }
+            foreach (var dest in _tails.Select(tail => new Rectangle((int)tail.Position.X, (int)tail.Position.Y, 40, 40)))
+                spriteBatch.Draw(_texture, dest, Color.White);
         }
 
         public Vector2 HeadPosition => _tails[0].Position;

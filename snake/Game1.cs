@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using snake.gui;
 
 namespace snake
 {
@@ -8,7 +9,7 @@ namespace snake
     {
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private readonly Playground _playground;
+        private readonly StateChanger _stateChanger;
 
         public Game1()
         {
@@ -18,12 +19,13 @@ namespace snake
             _graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _playground = new Playground();
+
+            _stateChanger = new StateChanger();
         }
 
         protected override void LoadContent()
         {
-            _playground.LoadContent(Content);
+            _stateChanger.ChangeState(MainMenu.Instance(), Content);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
@@ -33,7 +35,7 @@ namespace snake
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
         
-            _playground.Update(gameTime);
+            _stateChanger.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -41,13 +43,13 @@ namespace snake
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, Matrix.CreateScale(4.0f));
             
-            _playground.Draw(_spriteBatch);
+            _spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp, null, null, null, null);
+            
+            _stateChanger.Draw(_spriteBatch);
             
             _spriteBatch.End();
-
+            
             base.Draw(gameTime);
         }
     }

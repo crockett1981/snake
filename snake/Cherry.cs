@@ -17,7 +17,8 @@ namespace snake
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Position, Color.White);
+            Rectangle dist = new Rectangle((int) Position.X, (int) Position.Y, 40, 40);
+            spriteBatch.Draw(_texture, dist, Color.White);
         }
     }
 }
